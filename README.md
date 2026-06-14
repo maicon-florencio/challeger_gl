@@ -1,1 +1,0 @@
-# challeger_gl
