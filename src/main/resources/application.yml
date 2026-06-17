@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: globo
+  datasource:
+    url: jdbc:postgresql://localhost:5432/${DB_NAME:meu_banco}
+    username: ${DB_USERNAME:meu_usuario}
+    password: ${DB_PASSWORD:minha_senha}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 20
