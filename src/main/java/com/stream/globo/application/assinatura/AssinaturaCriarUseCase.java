@@ -1,11 +1,11 @@
 package com.stream.globo.application.assinatura;
 
-import com.stream.globo.domain.assinatura.entity.Assinatura;
 import com.stream.globo.domain.assinatura.AssinaturaRepository;
-import com.stream.globo.domain.plano.entity.Plano;
+import com.stream.globo.domain.assinatura.entity.Assinatura;
 import com.stream.globo.domain.plano.PlanoId;
-import com.stream.globo.domain.usuario.entity.Usuario;
+import com.stream.globo.domain.plano.entity.Plano;
 import com.stream.globo.domain.usuario.UsuarioId;
+import com.stream.globo.domain.usuario.entity.Usuario;
 import org.springframework.stereotype.Component;
 
 /**
@@ -25,14 +25,15 @@ public class AssinaturaCriarUseCase {
 
     public AssinaturaResponse criar(AssinaturaCriarRequest criarRequest) {
 
-        Plano plano = validator.validarPlano(PlanoId.from(criarRequest.planoAggregateId()));
-        Usuario usuario = validator.validarUsuario(UsuarioId.from(criarRequest.usuarioAggregateId()));
+        final Usuario usuario = validator.validarUsuario(UsuarioId.from(criarRequest.usuarioAggregateId()));
+        validator.validarAssinaturaAtiva(usuario);
+
+        final Plano plano = validator.validarPlano(PlanoId.from(criarRequest.planoAggregateId()));
 
         Assinatura novaAssinatura = Assinatura.criar(
                 PlanoId.from(criarRequest.planoAggregateId()),
                 UsuarioId.from(criarRequest.usuarioAggregateId())
         );
-
 
         Assinatura assinaturaSalva = repository.save(novaAssinatura);
 

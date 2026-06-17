@@ -257,14 +257,18 @@ class AssinaturaCriarUseCaseTest {
 
         when(validator.validarPlano(any(PlanoId.class))).thenReturn(plano);
         when(validator.validarUsuario(any(UsuarioId.class))).thenReturn(usuario);
+        doNothing().when(validator).validarAssinaturaAtiva(any(Usuario.class));
         when(repository.save(any(Assinatura.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         // Act
         useCase.criar(request);
 
         // Assert - Validar que plano foi validado antes de usuário
-        inOrder.verify(validator).validarPlano(any());
+
         inOrder.verify(validator).validarUsuario(any());
+
+        inOrder.verify(validator).validarPlano(any());
+
         inOrder.verify(repository).save(any());
     }
 
